@@ -3,11 +3,13 @@ import { Typography,Box,CardContent,Card,Button } from '@mui/material'
 
 const AllAppointments = () => {
     const [appointments,setAppointment] = useState([]);
+    const url = 'https://2423-103-46-203-83.ngrok-free.app';
+    const localUrl = 'http://localhost:80';
 
     useEffect(() => {
         async function getAppointments() {
             try {
-                const response = await fetch('http://localhost:80/get-appointments');
+                const response = await fetch(`${url}/get-appointments`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
