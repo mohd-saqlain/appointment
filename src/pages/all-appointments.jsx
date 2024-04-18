@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Typography,Box,CardContent,Card,Button } from '@mui/material'
+import CallDialog from '../components/call-dialog';
 
 const AllAppointments = () => {
     const [appointments,setAppointment] = useState([]);
+    const [openCall,setOpenCall] = useState(false);
     const url = 'https://2423-103-46-203-83.ngrok-free.app';
     const localUrl = 'http://localhost:80';
     const renderUrl = 'https://apis-jct6.onrender.com'
@@ -29,7 +31,8 @@ const AllAppointments = () => {
   return (
     <div>
       <Box sx={{width:400,margin:'auto'}}>
-        <Typography textAlign='center' my={2} variant='h4'>All Appointments</Typography>
+        <Typography textAlign='center' mt={2} variant='h4'>All Appointments</Typography>
+        <Box sx={{ my:2,textAlign:'center'}}><Button onClick={()=>setOpenCall(true)} variant='contained' size='small'>Make a call</Button></Box>
         <Box>
           {appointments.map((item,ind)=>{
             console.log(new Date(item.appointment_date))
@@ -51,6 +54,7 @@ const AllAppointments = () => {
 })}
         </Box>
       </Box>
+  <CallDialog onOpen={openCall} onClose={()=>setOpenCall(false)}/>
     </div>
   )
 }
