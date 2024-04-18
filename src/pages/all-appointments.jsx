@@ -5,11 +5,12 @@ const AllAppointments = () => {
     const [appointments,setAppointment] = useState([]);
     const url = 'https://2423-103-46-203-83.ngrok-free.app';
     const localUrl = 'http://localhost:80';
+    const renderUrl = 'https://apis-jct6.onrender.com'
 
     useEffect(() => {
         async function getAppointments() {
             try {
-                const response = await fetch(`${url}/get-appointments`);
+                const response = await fetch(`${renderUrl}/get-appointments`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
