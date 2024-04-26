@@ -11,14 +11,15 @@ export default function CallDialog({ onOpen, onClose }) {
   const handleCall = () => {
     if (phoneNumber) {
       const data = {
-        from_number: "+12133203696",
+        override_agent_id:'7a4a366eeb5106a6280a74569016f27f',
+        from_number: "+14154803160",
         to_number: phoneNumber,
       };
       const options = {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify content type as JSON
-          Authorization: "Bearer 8be52eb1-79ce-4abf-a76d-66abd25df0e1", // Include the Bearer token in the Authorization header
+          Authorization: "Bearer 962c038c-9a5c-4d45-a9c9-8088d5817e0a", // Include the Bearer token in the Authorization header
         },
         body: JSON.stringify(data),
       };
