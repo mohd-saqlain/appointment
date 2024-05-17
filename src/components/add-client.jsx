@@ -6,26 +6,24 @@ import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-export default function CallDialog({ onOpen, onClose }) {
+export default function AddClient({ onOpen, onClose,increaseRecall }) {
   const [phoneNumber, setPhoneNumber] = React.useState("");
 
   const handleCall = () => {
 
     if (phoneNumber) {
       const data = {
-        override_agent_id:'7a4a366eeb5106a6280a74569016f27f',
-        from_number: "+14154803160",
-        to_number: phoneNumber,
+        number:phoneNumber,
+        description: null,
       };
       const options = {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify content type as JSON
-          Authorization: "Bearer 962c038c-9a5c-4d45-a9c9-8088d5817e0a", // Include the Bearer token in the Authorization header
         },
         body: JSON.stringify(data),
       };
-      fetch("https://api.retellai.com/create-phone-call", options)
+      fetch("https://apis-jct6.onrender.com/insert-number", options)
         .then((response) => {
             console.log(response)
           if (!response.ok) {
@@ -35,6 +33,8 @@ export default function CallDialog({ onOpen, onClose }) {
         })
         .then((data) => {
           console.log("Response data:", data);
+          increaseRecall();
+          onClose();
           // Handle response data here
         })
         .catch((error) => {
@@ -44,16 +44,6 @@ export default function CallDialog({ onOpen, onClose }) {
     }
   };
 
-  function logWithDelay(arr, index) {
-    setTimeout(() => {
-        console.log(arr[index]);
-        if (index < arr.length - 1) {
-            logWithDelay(arr, index + 1);
-        }
-    }, 60000);
-}
-
-// logWithDelay(arr, 0);
   return (
     <React.Fragment>
       <Dialog open={onOpen} onClose={onClose}>
@@ -65,6 +55,7 @@ export default function CallDialog({ onOpen, onClose }) {
           </Typography>
           <TextField
             fullWidth
+            size="small"
             onChange={(e) => setPhoneNumber(e.target.value)}
             value={phoneNumber}
             label="Phone number"
@@ -86,7 +77,7 @@ export default function CallDialog({ onOpen, onClose }) {
             sx={{ textTransform: "capitalize" }}
             onClick={handleCall}
           >
-            Call
+            Add
           </Button>
         </DialogActions>
       </Dialog>

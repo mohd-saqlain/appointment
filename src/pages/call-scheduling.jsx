@@ -1,32 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { Typography,Box,CardContent,Card,Button } from '@mui/material'
+import AddClient from '../components/add-client';
 import CallDialog from '../components/call-dialog';
-import { Link } from 'react-router-dom';
 
-const AllAppointments = () => {
-    const [appointments,setAppointment] = useState([]);
+const CallScheduling = () => {
+    const [clients,setClients] = useState([]);
     const [openCall,setOpenCall] = useState(false);
+    const [counter,setCounter] = useState(0)
     const url = 'https://2423-103-46-203-83.ngrok-free.app';
     const localUrl = 'http://localhost:80';
     const renderUrl = 'https://apis-jct6.onrender.com'
 
     useEffect(() => {
-        async function getAppointments() {
+        async function getClients() {
             try {
-                const response = await fetch(`${renderUrl}/get-appointments`);
+                const response = await fetch(`${renderUrl}/get-clients`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setAppointment(data); // Logging the data returned by the API
+                setClients(data); // Logging the data returned by the API
             } catch (error) {
                 console.error('Error fetching data:', error);
                 // Handle the error here, such as displaying an error message to the user
             }
         }
         
-        getAppointments();
-    }, []);
+        getClients();
+    }, [counter]);
 
     const handleApprove = (number) => {
      
@@ -117,40 +118,36 @@ const AllAppointments = () => {
     }, 30000);
 }
 
+const increaseRecall = () => {
+    setCounter(counter + 1)
+}
 
     
     
   return (
     <div>
       <Box sx={{width:400,margin:'auto'}}>
-        <Typography textAlign='center' mt={2} variant='h4'>All Appointments</Typography>
-        <Box sx={{ my:2,display:'flex',gap:2,alignItems:'center',justifyContent:'center'}}><Button onClick={()=>setOpenCall(true)} variant='contained' size='small'>Make a call</Button>
-        <Button variant='contained' size='small' LinkComponent={Link} to='/call-scheduling'>Scheduling</Button>
+        <Typography textAlign='center' mt={2} variant='h4'>All Clients</Typography>
+        <Box sx={{ my:2,display:'flex',gap:2,alignItems:'center',justifyContent:'center'}}><Button onClick={()=>setOpenCall(true)} variant='contained' size='small'>Add Client</Button>
+        <Button onClick={handleStartCalling} variant='contained' size='small'>Start Calling</Button>
         </Box>
         <Box>
-          {appointments.map((item,ind)=>{
+          {clients.map((item,ind)=>{
           return(
             <Card variant='outlined' sx={{mb:2}}>
             <CardContent>
-            <Box display='flex' justifyContent='space-between'><Typography>{item.name}</Typography> <Typography>{item?.problem_specialist}</Typography></Box>
-              <Typography>{item.appointment_date}</Typography>
+            <Box display='flex' justifyContent='space-between'><Typography>{item.name}</Typography></Box>
               <Typography>{item.number}</Typography>
-              <Typography>{item?.diagnosis || ""}</Typography>
-              <Box sx={{display:'flex',justifyContent:'flex-end'}}>
-                {/* <Button variant='contained' sx={{mr:2,textTransform: "capitalize"}} size='small'>Cancel</Button> */}
-                <Button variant='contained' sx={{mr:2,textTransform: "capitalize"}} size='small' disabled={item?.is_approved} onClick={()=>handleApprove(item.number)}>{item?.is_approved ? "Approved" : "Approve"}</Button>
-                {/* <Button variant='outlined' sx={{mr:2}} size='small'>Bed 3</Button> */}
-                {/* <Button variant='outlined' sx={{mr:2}} size='small'>Bed 4</Button> */}
-              </Box>
+              <Typography>{item?.description || ""}</Typography>
             </CardContent>
           </Card>
           )
 })}
         </Box>
       </Box>
-  <CallDialog onOpen={openCall} onClose={()=>setOpenCall(false)}/>
+  <AddClient increaseRecall={increaseRecall} onOpen={openCall} onClose={()=>setOpenCall(false)}/>
     </div>
   )
 }
 
-export default AllAppointments
+export default CallScheduling
