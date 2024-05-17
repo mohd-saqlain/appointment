@@ -7,6 +7,7 @@ const CallScheduling = () => {
     const [clients,setClients] = useState([]);
     const [openCall,setOpenCall] = useState(false);
     const [counter,setCounter] = useState(0)
+    const [isDisabled,setIsDisabled] = useState(false);
     const url = 'https://2423-103-46-203-83.ngrok-free.app';
     const localUrl = 'http://localhost:80';
     const renderUrl = 'https://apis-jct6.onrender.com'
@@ -70,6 +71,9 @@ const CallScheduling = () => {
       }
       const data = await response.json();
       callWithDelay(data,0);
+      if(data.length){
+        setIsDisabled(true);
+      }
     }
       const handleCall = (phoneNumber) => {
 
@@ -129,7 +133,7 @@ const increaseRecall = () => {
       <Box sx={{width:400,margin:'auto'}}>
         <Typography textAlign='center' mt={2} variant='h4'>All Clients</Typography>
         <Box sx={{ my:2,display:'flex',gap:2,alignItems:'center',justifyContent:'center'}}><Button onClick={()=>setOpenCall(true)} variant='contained' size='small'>Add Client</Button>
-        <Button onClick={handleStartCalling} variant='contained' size='small'>Start Calling</Button>
+        <Button onClick={handleStartCalling} disabled={isDisabled} variant='contained' size='small'>Start Calling</Button>
         </Box>
         <Box>
           {clients.map((item,ind)=>{
