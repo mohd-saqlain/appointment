@@ -100,7 +100,7 @@ const CallScheduling = () => {
           return response.json(); // Parse response body as JSON
         })
         .then((data) => {
-          console.log("Response data:", data);
+          console.log("Response:", data);
           // Handle response data here
         })
         .catch((error) => {
@@ -116,7 +116,7 @@ const CallScheduling = () => {
     setTimeout(() => {
         console.log(arr[index].number);
         handleCall(arr[index].number);
-        if (index < arr.length - 1) {
+        if (index < arr.length-1) {
           callWithDelay(arr, index+1);
         }
     }, 30000);
