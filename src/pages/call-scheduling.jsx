@@ -117,13 +117,13 @@ const CallScheduling = () => {
         console.log(arr[index].number);
         handleCall(arr[index].number);
         if (index < arr.length - 1) {
-          callWithDelay(arr, index + 1);
+          callWithDelay(arr, index+1);
         }
     }, 30000);
 }
 
 const increaseRecall = () => {
-    setCounter(counter + 1)
+    setCounter(counter+1)
 }
 
     
